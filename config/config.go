@@ -5,11 +5,11 @@ import (
 	"io"
 	"io/ioutil"
 
-	"github.com/bketelsen/crypt/backend"
-	"github.com/bketelsen/crypt/backend/consul"
-	"github.com/bketelsen/crypt/backend/etcd"
-	"github.com/bketelsen/crypt/backend/firestore"
-	"github.com/bketelsen/crypt/encoding/secconf"
+	"github.com/sagikazarmark/crypt/backend"
+	"github.com/sagikazarmark/crypt/backend/consul"
+	"github.com/sagikazarmark/crypt/backend/etcd"
+	"github.com/sagikazarmark/crypt/backend/firestore"
+	"github.com/sagikazarmark/crypt/encoding/secconf"
 )
 
 type KVPair struct {
