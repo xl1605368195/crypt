@@ -7,7 +7,7 @@ require (
 	github.com/hashicorp/consul/api v1.12.0
 	go.etcd.io/etcd/client/v2 v2.305.1
 	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5
-	google.golang.org/api v0.65.0
+	google.golang.org/api v0.66.0
 	google.golang.org/grpc v1.44.0
 )
 
@@ -39,10 +39,10 @@ require (
 	go.opencensus.io v0.23.0 // indirect
 	golang.org/x/net v0.0.0-20210813160813-60bc85c4be6d // indirect
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8 // indirect
-	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
+	golang.org/x/sys v0.0.0-20220114195835-da31bd327af9 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/genproto v0.0.0-20220107163113-42d7afdf6368 // indirect
+	google.golang.org/genproto v0.0.0-20220114231437-d2e6a121cae0 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 )
