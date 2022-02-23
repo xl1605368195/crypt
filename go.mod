@@ -7,13 +7,13 @@ require (
 	github.com/hashicorp/consul/api v1.12.0
 	go.etcd.io/etcd/client/v2 v2.305.2
 	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5
-	google.golang.org/api v0.69.0
+	google.golang.org/api v0.70.0
 	google.golang.org/grpc v1.44.0
 )
 
 require (
 	cloud.google.com/go v0.100.2 // indirect
-	cloud.google.com/go/compute v1.2.0 // indirect
+	cloud.google.com/go/compute v1.3.0 // indirect
 	github.com/armon/go-metrics v0.3.10 // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/fatih/color v1.13.0 // indirect
@@ -43,6 +43,6 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/genproto v0.0.0-20220211171837-173942840c17 // indirect
+	google.golang.org/genproto v0.0.0-20220218161850-94dd64e39d7c // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 )
