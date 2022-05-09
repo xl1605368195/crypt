@@ -66,6 +66,16 @@ func NewStandardEtcdConfigManager(machines []string) (ConfigManager, error) {
 	return NewStandardConfigManager(store)
 }
 
+// NewStandardEtcdV3ConfigManager returns a new ConfigManager backed by etcdv3.
+func NewStandardEtcdV3ConfigManager(machines []string) (ConfigManager, error) {
+	store, err := etcd.NewV3(machines)
+	if err != nil {
+		return nil, err
+	}
+
+	return NewStandardConfigManager(store)
+}
+
 // NewStandardConsulConfigManager returns a new ConfigManager backed by consul.
 func NewStandardConsulConfigManager(machines []string) (ConfigManager, error) {
 	store, err := consul.New(machines)
@@ -89,6 +99,16 @@ func NewFirestoreConfigManager(machines []string, keystore io.Reader) (ConfigMan
 // Data will be encrypted.
 func NewEtcdConfigManager(machines []string, keystore io.Reader) (ConfigManager, error) {
 	store, err := etcd.New(machines)
+	if err != nil {
+		return nil, err
+	}
+	return NewConfigManager(store, keystore)
+}
+
+// NewEtcdV3ConfigManager returns a new ConfigManager backed by etcdv3.
+// Data will be encrypted.
+func NewEtcdV3ConfigManager(machines []string, keystore io.Reader) (ConfigManager, error) {
+	store, err := etcd.NewV3(machines)
 	if err != nil {
 		return nil, err
 	}

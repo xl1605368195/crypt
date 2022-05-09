@@ -105,6 +105,9 @@ func (c *Client) WatchWithContext(ctx context.Context, key string, stop chan boo
 			resp, err = watcher.Next(ctx)
 			if err != nil {
 				respChan <- &backend.Response{nil, err}
+				if errors.Is(err, context.Canceled) {
+					return
+				}
 				time.Sleep(time.Second * 5)
 				continue
 			}
