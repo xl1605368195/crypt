@@ -1,9 +1,9 @@
 package http
 
 import (
+	"fmt"
 	"io"
 	"net/http"
-	"net/url"
 	"strings"
 	"time"
 
@@ -17,7 +17,6 @@ type Client struct {
 type Connection struct {
 	Host     string
 	Http     *http.Client
-	proxyURL *url.URL
 }
 
 func New(machines []string) (*Client, error) {
@@ -35,11 +34,7 @@ func (c *Client) Get(key string) ([]byte, error) {
 	var body []byte = nil
 	var err error = nil
 	for _, conn := range c.Connections {
-		resp, err := conn.Http.Post(conn.Host, "text/plain", strings.NewReader(key))
-		if err != nil {
-			continue
-		}
-		body, err = io.ReadAll(resp.Body)
+		body, err = ExecHttp(conn, conn.Host, key)
 		if err != nil {
 			continue
 		}
@@ -65,14 +60,11 @@ func (c *Client) Watch(key string, stop chan bool) <-chan *backend.Response {
 			var body []byte = nil
 			var err error = nil
 			for _, conn := range c.Connections {
-				resp, err := conn.Http.Post(conn.Host, "text/plain", strings.NewReader(key))
+				body, err = ExecHttp(conn, conn.Host, key)
 				if err != nil {
 					continue
 				}
-				body, err = io.ReadAll(resp.Body)
-				if err != nil {
-					continue
-				}
+
 				break
 			}
 
@@ -86,4 +78,18 @@ func (c *Client) Watch(key string, stop chan bool) <-chan *backend.Response {
 		}
 	}()
 	return respChan
+}
+
+func ExecHttp(conn Connection, url string, key string) ([]byte, error) {
+	payload := strings.NewReader(fmt.Sprintf(`{"key":"%s"}`, key))
+	res, err := conn.Http.Post(url, "application/json", payload)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
 }
