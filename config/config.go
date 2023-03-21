@@ -2,15 +2,15 @@ package config
 
 import (
 	"bytes"
-	"github.com/sagikazarmark/crypt/backend/http"
+	"github.com/xl1605368195/crypt/backend/http"
 	"io"
 	"io/ioutil"
 
-	"github.com/sagikazarmark/crypt/backend"
-	"github.com/sagikazarmark/crypt/backend/consul"
-	"github.com/sagikazarmark/crypt/backend/etcd"
-	"github.com/sagikazarmark/crypt/backend/firestore"
-	"github.com/sagikazarmark/crypt/encoding/secconf"
+	"github.com/xl1605368195/crypt/backend"
+	"github.com/xl1605368195/crypt/backend/consul"
+	"github.com/xl1605368195/crypt/backend/etcd"
+	"github.com/xl1605368195/crypt/backend/firestore"
+	"github.com/xl1605368195/crypt/encoding/secconf"
 )
 
 type KVPair struct {
