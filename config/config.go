@@ -2,6 +2,7 @@ package config
 
 import (
 	"bytes"
+	"github.com/sagikazarmark/crypt/backend/http"
 	"io"
 	"io/ioutil"
 
@@ -46,6 +47,27 @@ func NewConfigManager(client backend.Store, keystore io.Reader) (ConfigManager, 
 	}
 	return configManager{bytes, client}, nil
 }
+
+// NewStandardHttpConfigManager returns a new ConfigManager backed by Zookeeper.
+// Data will be encrypted.
+func NewStandardHttpConfigManager(machines []string) (ConfigManager, error) {
+	store, err := http.New(machines)
+	if err != nil {
+		return nil, err
+	}
+	return NewStandardConfigManager(store)
+}
+
+// NewHttpConfigManager returns a new ConfigManager backed by zookeeper.
+// Data will be encrypted.
+func NewHttpConfigManager(machines []string, keystore io.Reader) (ConfigManager, error) {
+	store, err := http.New(machines)
+	if err != nil {
+		return nil, err
+	}
+	return NewConfigManager(store, keystore)
+}
+
 
 // NewStandardFirestoreConfigManager returns a new ConfigManager backed by Firestore.
 func NewStandardFirestoreConfigManager(machines []string) (ConfigManager, error) {
