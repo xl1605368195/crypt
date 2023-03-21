@@ -11,30 +11,22 @@ import (
 )
 
 type Client struct {
-	Connections []Connection
-}
-
-type Connection struct {
-	Host     string
-	Http     *http.Client
+	Hosts []string
 }
 
 func New(machines []string) (*Client, error) {
-	connctions := make([]Connection, len(machines))
+	hosts := make([]string, len(machines))
 	for i, host := range machines {
-		conn := &Connection{
-			Host: host,
-		}
-		connctions[i] = *conn
+		hosts[i] = host
 	}
-	return &Client{connctions}, nil
+	return &Client{hosts}, nil
 }
 
 func (c *Client) Get(key string) ([]byte, error) {
 	var body []byte = nil
 	var err error = nil
-	for _, conn := range c.Connections {
-		body, err = ExecHttp(conn, conn.Host, key)
+	for _, host := range c.Hosts {
+		body, err = ExecHttp(host, key)
 		if err != nil {
 			continue
 		}
@@ -59,12 +51,11 @@ func (c *Client) Watch(key string, stop chan bool) <-chan *backend.Response {
 		for {
 			var body []byte = nil
 			var err error = nil
-			for _, conn := range c.Connections {
-				body, err = ExecHttp(conn, conn.Host, key)
+			for _, conn := range c.Hosts {
+				body, err = ExecHttp(conn, key)
 				if err != nil {
 					continue
 				}
-
 				break
 			}
 
@@ -80,14 +71,22 @@ func (c *Client) Watch(key string, stop chan bool) <-chan *backend.Response {
 	return respChan
 }
 
-func ExecHttp(conn Connection, url string, key string) ([]byte, error) {
+func ExecHttp(url, key string) ([]byte, error) {
 	payload := strings.NewReader(fmt.Sprintf(`{"key":"%s"}`, key))
-	res, err := conn.Http.Post(url, "application/json", payload)
+	client := &http.Client{}
+	req, err := http.NewRequest("POST", url, payload)
 	if err != nil {
 		return nil, err
 	}
-	defer res.Body.Close()
-	body, err := io.ReadAll(res.Body)
+	req.Header.Add("Content-Type", "application/json")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
